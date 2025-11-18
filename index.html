@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Kanal Rehberi - Türkiye'de Canlı TV İzle</title>
+    <meta name="description" content="Türkiye'nin tüm TV kanallarına tek tıkla ulaşın. Canlı yayın, haber, spor ve eğlence kanalları.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* YouTube Kanal Reklamı */
+        .youtube-promo {
+            background: linear-gradient(45deg, #FF0000, #CC0000);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+            border: 3px solid #FFD700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .youtube-promo h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .youtube-promo p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .youtube-btn {
+            display: inline-block;
+            background: #FFD700;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid #FFF;
+        }
+        
+        .youtube-btn:hover {
+            background: #FFF;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Arama Çubuğu */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .category {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-title {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .channel-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+        }
+        
+        .channel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+            background: white;
+        }
+        
+        .channel-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .channel-desc {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .channel-link {
+            color: #667eea;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* İstatistikler */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .channels-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .youtube-promo h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- YouTube Kanal Reklamı -->
+        <div class="youtube-promo">
+            <h3>🎥 @mtechnow YouTube Kanalı</h3>
+            <p>Teknoloji, yazılım ve güncel teknoloji haberleri için kanalımıza abone olun!</p>
+            <a href="https://youtube.com/@mtechnow" target="_blank" class="youtube-btn">
+                📹 Kanalıma Git
+            </a>
+        </div>
+
+        <div class="header">
+            <h1>📺 TV Kanal Rehberi</h1>
+            <p>Türkiye'nin önde gelen TV kanallarına tek tıkla ulaşın</p>
+        </div>
+
+        <!-- İstatistikler -->
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="kanalSayisi">0</span>
+                <span class="stat-label">Toplam Kanal</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">Kategori</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">7/24</span>
+                <span class="stat-label">Canlı Yayın</span>
+            </div>
+        </div>
+
+        <!-- Arama Çubuğu -->
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Kanal ara...">
+        </div>
+
+        <!-- Haber Kanalları -->
+        <div class="category">
+            <div class="category-title">📰 Haber Kanalları</div>
+            <div class="channels-grid" id="haber-kanallari">
+                <!-- Haber kanalları buraya eklenecek -->
+            </div>
+        </div>
+
+        <!-- Spor Kanalları -->
+        <div class="category">
+            <div class="category-title">⚽ Spor Kanalları</div>
+            <div class="channels-grid" id="spor-kanallari">
+                <!-- Spor kanalları buraya eklenecek -->
+            </div>
+        </div>
+
+        <!-- Eğlence ve Dizi Kanalları -->
+        <div class="category">
+            <div class="category-title">🎬 Eğlence ve Dizi Kanalları</div>
+            <div class="channels-grid" id="eglence-kanallari">
+                <!-- Eğlence kanalları buraya eklenecek -->
+            </div>
+        </div>
+
+        <!-- Müzik Kanalları -->
+        <div class="category">
+            <div class="category-title">🎵 Müzik Kanalları</div>
+            <div class="channels-grid" id="muzik-kanallari">
+                <!-- Müzik kanalları buraya eklenecek -->
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>⚠️ Bu site sadece rehberlik amaçlıdır. Yayın hakları ilgili kanallara aittir.</p>
+            <p>📹 YouTube: <a href="https://youtube.com/@mtechnow" style="color: #FFD700;" target="_blank">@mtechnow</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Kanal verileri
+        const kanallar = {
+            haber: [
+                { isim: "TRT Haber", aciklama: "Resmi devlet kanalı", url: "https://www.trthaber.com/canli_yayin.html" },
+                { isim: "NTV", aciklama: "Güvenilir haber kaynağı", url: "https://www.ntv.com.tr/canli-yayin" },
+                { isim: "CNN Türk", aciklama: "Global haber ağı", url: "https://www.cnnturk.com/canli-yayin" },
+                { isim: "HaberTürk", aciklama: "Güncel haberler", url: "https://www.haberturk.com/canli-yayin" },
+                { isim: "Fox Haber", aciklama: "Fox haber kanalı", url: "https://www.fox.com.tr/canli-yayin" },
+                { isim: "A Haber", aciklama: "A haber kanalı", url: "https://www.ahaber.com.tr/canli-yayin" },
+                { isim: "TV100", aciklama: "TV100 haber kanalı", url: "https://tv100.com/canli-yayin" },
+                { isim: "360", aciklama: "360 haber kanalı", url: "https://www.360.com.tr/canli-yayin" },
+                { isim: "TGRT Haber", aciklama: "TGRT haber kanalı", url: "https://www.tgrthaber.com.tr/canli-yayin" }
+            ],
+            spor: [
+                { isim: "TRT Spor", aciklama: "Resmi spor kanalı", url: "https://www.trtspor.com.tr/canli-yayin" },
+                { isim: "beIN Sports", aciklama: "beIN Sports kanalları", url: "https://www.beinsports.com.tr/canli-yayin" },
+                { isim: "S Sport", aciklama: "S Sport kanalı", url: "https://www.ssport.com/canli-yayin" },
+                { isim: "A Spor", aciklama: "A Spor kanalı", url: "https://www.aspor.com.tr/canli-yayin" }
+            ],
+            eglence: [
+                { isim: "Show TV", aciklama: "Eğlence ve dizi kanalı", url: "https://www.showtv.com.tr/canli-yayin" },
+                { isim: "Kanal D", aciklama: "Eğlence ve dizi kanalı", url: "https://www.kanald.com.tr/canli-yayin" },
+                { isim: "Star TV", aciklama: "Eğlence ve dizi kanalı", url: "https://www.startv.com.tr/canli-yayin" },
+                { isim: "FOX", aciklama: "Eğlence ve dizi kanalı", url: "https://www.fox.com.tr/canli-yayin" },
+                { isim: "ATV", aciklama: "Eğlence ve dizi kanalı", url: "https://www.atv.com.tr/canli-yayin" },
+                { isim: "TV8", aciklama: "Eğlence ve dizi kanalı", url: "https://www.tv8.com.tr/canli-yayin" },
+                { isim: "TV8,5", aciklama: "Eğlence kanalı", url: "https://www.tv85.com.tr/canli-yayin" }
+            ],
+            muzik: [
+                { isim: "Kral Pop TV", aciklama: "Pop müzik kanalı", url: "https://kralpop.com.tr/canli-yayin" },
+                { isim: "Power TV", aciklama: "Müzik kanalı", url: "https://powertv.com.tr/canli-yayin" },
+                { isim: "Number One TV", aciklama: "Müzik kanalı", url: "https://numberone.com.tr/canli-yayin" }
+            ]
+        };
+
+        // Tüm kanalları say
+        function toplamKanalSayisi() {
+            let toplam = 0;
+            for (const kategori in kanallar) {
+                toplam += kanallar[kategori].length;
+            }
+            return toplam;
+        }
+
+        // Kanalları ekrana yerleştirme
+        function kanallariYukla() {
+            for (const [kategori, kanalListesi] of Object.entries(kanallar)) {
+                const container = document.getElementById(`${kategori}-kanallari`);
+                if (container) {
+                    container.innerHTML = ''; // Temizle
+                    kanalListesi.forEach(kanal => {
+                        const kanalKarti = `
+                            <a href="${kanal.url}" target="_blank" class="channel-card">
+                                <div class="channel-name">${kanal.isim}</div>
+                                <div class="channel-desc">${kanal.aciklama}</div>
+                                <div class="channel-link">İzle →</div>
+                            </a>
+                        `;
+                        container.innerHTML += kanalKarti;
+                    });
+                }
+            }
+            
+            // İstatistikleri güncelle
+            document.getElementById('kanalSayisi').textContent = toplamKanalSayisi();
+        }
+
+        // Arama fonksiyonu
+        function kanalAra(aramaKelimesi) {
+            for (const [kategori, kanalListesi] of Object.entries(kanallar)) {
+                const container = document.getElementById(`${kategori}-kanallari`);
+                if (container) {
+                    container.innerHTML = '';
+                    
+                    const filtrelenmisKanallar = kanalListesi.filter(kanal => 
+                        kanal.isim.toLowerCase().includes(aramaKelimesi.toLowerCase()) ||
+                        kanal.aciklama.toLowerCase().includes(aramaKelimesi.toLowerCase())
+                    );
+                    
+                    if (filtrelenmisKanallar.length === 0) {
+                        container.innerHTML = `<div style="text-align: center; color: #666; padding: 20px;">Kanal bulunamadı</div>`;
+                    } else {
+                        filtrelenmisKanallar.forEach(kanal => {
+                            const kanalKarti = `
+                                <a href="${kanal.url}" target="_blank" class="channel-card">
+                                    <div class="channel-name">${kanal.isim}</div>
+                                    <div class="channel-desc">${kanal.aciklama}</div>
+                                    <div class="channel-link">İzle →</div>
+                                </a>
+                            `;
+                            container.innerHTML += kanalKarti;
+                        });
+                    }
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde kanalları yükle
+        document.addEventListener('DOMContentLoaded', function() {
+            kanallariYukla();
+            
+            // Arama kutusu event listener
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function(e) {
+                if (e.target.value.length > 0) {
+                    kanalAra(e.target.value);
+                } else {
+                    kanallariYukla();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
